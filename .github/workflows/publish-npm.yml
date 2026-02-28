@@ -23,8 +23,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22.14.0
           cache: npm
+
+      - name: Upgrade npm for trusted publishing
+        run: npm i -g npm@^11.5.1
+
+      - name: Show tool versions
+        run: |
+          node --version
+          npm --version
 
       - name: Verify tag matches package.json version
         shell: bash
