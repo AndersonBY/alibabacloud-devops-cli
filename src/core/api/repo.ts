@@ -54,8 +54,10 @@ export async function createRepository(client: YunxiaoApiClient, input: {
     gitignoreType: input.gitignoreType,
     importDemoProject: input.importDemoProject,
   };
+  const pathWithNamespace = typeof input.path === "string" && input.path.includes("/");
   const query = {
     organizationId: input.organizationId,
+    ...(pathWithNamespace ? { createParentPath: true } : {}),
   };
 
   const bodyVariants: Array<Record<string, unknown>> = [baseBody];
@@ -72,10 +74,12 @@ export async function createRepository(client: YunxiaoApiClient, input: {
   }
 
   let lastError: unknown;
+  let firstMeaningfulError: unknown;
   for (const body of bodyVariants) {
     const candidates: Array<{ path: string; query?: Record<string, unknown>; body?: unknown }> = [
       {
         path: `/oapi/v1/codeup/organizations/${input.organizationId}/repositories`,
+        query,
         body,
       },
       {
@@ -93,12 +97,20 @@ export async function createRepository(client: YunxiaoApiClient, input: {
           body: candidate.body,
         });
       } catch (error) {
+        // Keep the first non-HTML compatibility error so we don't mask real API validation details.
+        if (
+          !firstMeaningfulError &&
+          !(error instanceof Error && error.message.includes("returned HTML document unexpectedly"))
+        ) {
+          firstMeaningfulError = error;
+        }
         lastError = error;
       }
     }
   }
 
-  const suffix = lastError instanceof Error ? ` Last error: ${lastError.message}` : "";
+  const preferredError = firstMeaningfulError ?? lastError;
+  const suffix = preferredError instanceof Error ? ` Last error: ${preferredError.message}` : "";
   throw new CliError(`Failed to create repository ${input.name}.${suffix}`);
 }
 
