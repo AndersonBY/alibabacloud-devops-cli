@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.yx-test/
+.tmp/
+tmp-e2e-repo/
+*.tgz
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
