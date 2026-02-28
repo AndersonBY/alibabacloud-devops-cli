@@ -60,7 +60,8 @@ jobs:
           fi
 
       - name: Publish
-        run: npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ""
-          NPM_TOKEN: ""
+        shell: bash
+        run: |
+          set -euo pipefail
+          unset NODE_AUTH_TOKEN NPM_TOKEN
+          npm publish --provenance
