@@ -1,6 +1,6 @@
 # yunxiao-cli
 
-`yx` 是一个独立的云效 CLI（gh 风格体验）。它直接调用云效 OpenAPI，运行时不依赖 `alibabacloud-devops-mcp-server`。
+`yx` 是一个独立的云效 CLI（gh 风格体验）。它直接调用云效 OpenAPI。
 
 ## 30 秒快速开始
 
