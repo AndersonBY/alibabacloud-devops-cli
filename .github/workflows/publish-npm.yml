@@ -25,7 +25,6 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          registry-url: https://registry.npmjs.org
 
       - name: Verify tag matches package.json version
         shell: bash
@@ -62,3 +61,6 @@ jobs:
 
       - name: Publish
         run: npm publish --provenance
+        env:
+          NODE_AUTH_TOKEN: ""
+          NPM_TOKEN: ""
