@@ -1,9 +1,13 @@
 {
   "name": "yunxiao-cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "yx - Yunxiao CLI powered by Yunxiao OpenAPI",
   "type": "module",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AndersonBY/alibabacloud-devops-cli"
+  },
   "bin": {
     "yx": "dist/index.js"
   },
